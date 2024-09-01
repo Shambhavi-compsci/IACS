@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="./assets/register.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <nav class="bg-white shadow fixed top-0 left-0 right-0 z-10">
+            <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-8">
+                    <a href="/">
+                        <img src="./assets/logo.png" alt="Logo" class="h-8 lg:h-10">
+                    </a>
+                    <div class="hidden md:flex space-x-4">
+                        <a href="#" class="hover:text-indigo-600 text-gray-700">Home</a>
+                        <a href="#" class="hover:text-indigo-600 text-gray-700">About</a>
+                        <a href="#" class="hover:text-indigo-600 text-gray-700">Service</a>
+                        <a href="#" class="hover:text-indigo-600 text-gray-700">Contact</a>
+                    </div>
+                </div>
+                <div class="flex space-x-4 items-center">
+                    <a href="./index.html" class="text-gray-800 text-sm">LOGIN</a>
+                    <a href="#" class="bg-indigo-600 px-4 py-2 rounded text-white hover:bg-indigo-500 text-sm">SIGNUP</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Section -->
+    <div class="flex justify-center items-center min-h-screen pt-20 bg-gray-100">
+        <div class="container bg-white p-8 rounded shadow-lg max-w-lg">
+            <h2 class="title">Registration Form</h2>
+            <form action="/register" method="post" id="registration_form" onsubmit="return myfunction()" name="myform">
+
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">First Name</span>
+                        <input type="text" placeholder="First Name" name="first_name" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Middle Name</span>
+                        <input type="text" placeholder="Middle Name" name="middle_name" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Last Name</span>
+                        <input type="text" placeholder="Last Name" name="last_name" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Date Of Birth</span>
+                        <input id="dob" type="date" name="dob" required>
+                    </div>
+                    
+                    <div class="input-box">
+                        <span class="details">Country Code</span>
+                        <input type="text" data-mask="000" placeholder="000" name="country_code" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Gender</span>
+                        <select name="gender" required>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Contact Number</span>
+                        <input type="text" data-mask="0000000000" placeholder="0000000000" name="contact_number" required>
+                        <select class="num" name="contact_code">
+                            <option>+91</option>
+                            <option>+81</option>
+                            <option>+71</option>
+                            <option>+61</option>
+                            <option>+51</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Email</span>
+                        <input type="email" placeholder="email" name="email" required>
+                        <span id="emailmsg" style="color: red;"></span>
+                    </div>
+                    <div class="input-box">
+                      <span class="details">Password</span>
+                      <input type="password" id="pwd" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" required>
+                      <span id="message" style="color: red;"></span>
+                  </div>
+                  
+                  <div class="input-box">
+                      <span class="details">Re-enter Password</span>
+                      <input type="password" id="pwds" placeholder="Re-enter Password" required oninput="checkPasswordMatch()">
+                      <span id="messages" style="color: red;"></span>
+                  </div>
+                  
+                  <script>
+                      function checkPasswordMatch() {
+                          var password = document.getElementById("pwd").value;
+                          var confirmPassword = document.getElementById("pwds").value;
+                          var message = document.getElementById("messages");
+                  
+                          if (password !== confirmPassword) {
+                              message.innerHTML = "Passwords do not match";
+                          } else {
+                              message.innerHTML = "";
+                          }
+                      }
+                  </script>
+                  
+                </div>
+                <div class="button">
+                    <input type="submit" value="Next" class="bg-indigo-600 px-4 py-2 rounded text-white hover:bg-indigo-500">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+    <script>
+        function myfunction() {
+            var a = document.getElementById("pwd").value;
+            var b = document.getElementById("pwds").value;
+            if (a === "") {
+                document.getElementById("message").innerHTML = "**Please enter Password**";
+                return false;
+            }
+            if (a !== b) {
+                document.getElementById("messages").innerHTML = "**Password did not match**";
+                return false;
+            }
+        
+            var e = document.myform.email.value;
+            if (e.indexOf('@') < 0) {
+                document.getElementById("emailmsg").innerHTML = "Invalid email address";
+                return false;
+            }
+            
+            return true; // Ensure the form submits if all validations pass
+        }
+    </script>
+</body>
+</html>

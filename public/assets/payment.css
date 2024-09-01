@@ -1,0 +1,53 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f3f4f6;
+}
+
+.container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.label {
+    font-weight: 600;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.input:focus {
+    border-color: #6366f1;
+}
+
+.icon-relative {
+    position: relative;
+}
+
+.icon-relative .fa-user,
+.icon-relative .fa-credit-card,
+.icon-relative .fa-calendar-alt,
+.icon-relative .fa-lock {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.btn {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.space {
+    margin-bottom: 20px;
+}

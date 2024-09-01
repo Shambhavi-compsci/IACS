@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" type="text/css" href="./assets/payment.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <nav class="bg-white shadow fixed top-0 left-0 right-0 z-10">
+            <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-8">
+                    <a href="/">
+                        <img src="./assets/logo.png" alt="Logo" class="h-8 lg:h-10">
+                    </a>
+                    <div class="hidden md:flex space-x-4">
+                        <a href="#" class="hover:text-indigo-600 text-gray-700">Home</a>
+                        <a href="#" class="hover:text-indigo-600 text-gray-700">About</a>
+                        <a href="#" class="hover:text-indigo-600 text-gray-700">Service</a>
+                        <a href="#" class="hover:text-indigo-600 text-gray-700">Contact</a>
+                    </div>
+                </div>
+                <div class="flex space-x-4 items-center">
+                    <a href="index.html" class="text-gray-800 text-sm">LOGIN</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Section -->
+    <div class="flex justify-center items-center min-h-screen pt-20 bg-gray-100">
+        <div class="container bg-white p-8 rounded shadow-lg max-w-lg">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-5">Payment Form</h2>
+            <form action="/submit-payment" method="POST">
+                <div class="form">
+                    <div class="card space icon-relative mb-4">
+                        <label class="label block text-gray-700 mb-2">Card holder:</label>
+                        <input type="text" name="card_holder" class="input w-full p-3 border rounded" placeholder="Card holder's Name" required>
+                        <i class="fas fa-user absolute right-3 top-3 text-gray-400"></i>
+                    </div>
+                    <div class="card space icon-relative mb-4">
+                        <label class="label block text-gray-700 mb-2">Card number:</label>
+                        <input type="text" name="card_number" class="input w-full p-3 border rounded" data-mask="0000 0000 0000 0000" placeholder="Card Number" required>
+                        <i class="far fa-credit-card absolute right-3 top-3 text-gray-400"></i>
+                    </div>
+                    <div class="card-grp space flex mb-4">
+                        <div class="card-item icon-relative w-1/2 pr-2">
+                            <label class="label block text-gray-700 mb-2">Expiry date:</label>
+                            <input type="text" name="date_of_expiry" class="input w-full p-3 border rounded" data-mask="00 / 00" placeholder="00 / 00" required>
+                            <i class="far fa-calendar-alt absolute right-3 top-3 text-gray-400"></i>
+                        </div>
+                        <div class="card-item icon-relative w-1/2 pl-2">
+                            <label class="label block text-gray-700 mb-2">CVC:</label>
+                            <input type="text" name="CVC" class="input w-full p-3 border rounded" data-mask="000" placeholder="000" required>
+                            <i class="fas fa-lock absolute right-3 top-3 text-gray-400"></i>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn bg-indigo-600 text-white text-center py-2 rounded cursor-pointer hover:bg-indigo-500">
+                        Pay
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+</body>
+</html>
