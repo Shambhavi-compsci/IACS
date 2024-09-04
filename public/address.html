@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" type="text/css" href="./assets/address.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <nav class="bg-white shadow fixed top-0 left-0 right-0 z-10">
+            <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-8">
+                    <a href="/">
+                        <img src="./assets/logo.png" alt="Logo" class="h-8 lg:h-10">
+                    </a>
+                    <div class="hidden md:flex space-x-4">
+                        <a href="index.html" class="hover:text-indigo-600 text-gray-700">Home</a>
+                        <a href="welcome.html" class="hover:text-indigo-600 text-gray-700">Shop</a>
+                        <a href="service.html" class="hover:text-indigo-600 text-gray-700">Service</a>
+                        <a href="contact.html" class="hover:text-indigo-600 text-gray-700">Contact</a>
+                    </div>
+                </div>
+                <div class="flex space-x-4 items-center">
+                    <a href="index.html" class="text-gray-800 text-sm">LOGIN</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Section -->
+    <div class="flex justify-center items-center min-h-screen pt-20 bg-gray-100">
+        <div class="container bg-white p-8 rounded shadow-lg max-w-lg">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-5">Address Form</h2>
+            <form id="address-form" action="/submit-address" method="POST">
+                <div class="form">
+                    <div class="space mb-4">
+                        <label class="label block text-gray-700 mb-2">Address:</label>
+                        <input type="text" name="address" class="input w-full p-3 border rounded" placeholder="Street Address" required>
+                    </div>
+                    <div class="space mb-4">
+                        <label class="label block text-gray-700 mb-2">City:</label>
+                        <input type="text" name="city" class="input w-full p-3 border rounded" placeholder="City" required>
+                    </div>
+                    <div class="space mb-4">
+                        <label class="label block text-gray-700 mb-2">State:</label>
+                        <input type="text" name="state" class="input w-full p-3 border rounded" placeholder="State" required>
+                    </div>
+                    <div class="space mb-4">
+                        <label class="label block text-gray-700 mb-2">ZIP:</label>
+                        <input type="text" name="zip" class="input w-full p-3 border rounded" placeholder="ZIP Code" required>
+                    </div>
+                    <button type="submit" class="btn bg-indigo-600 text-white text-center py-2 rounded cursor-pointer hover:bg-indigo-500">
+                        Go Shop!
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form submission and validation
+        document.getElementById('address-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Check if all fields are valid
+            const form = event.target;
+            if (form.checkValidity()) {
+                form.submit();
+            } else {
+                // Show validation message for empty fields
+                form.reportValidity();
+            }
+        });
+    </script>
+
+</body>
+</html>

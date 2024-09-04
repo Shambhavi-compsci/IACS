@@ -17,13 +17,18 @@
                         <img src="./assets/logo.png" alt="Logo" class="h-8 lg:h-10">
                     </a>
                     <div class="hidden md:flex space-x-4">
-                        <a href="/" class="hover:text-indigo-600 text-gray-700">Home</a>
-                        <a href="/welcome.html" class="hover:text-indigo-600 text-gray-700">Shop</a>
-                        <a href="#" class="hover:text-indigo-600 text-gray-700">Service</a>
-                        <a href="#" class="hover:text-indigo-600 text-gray-700">Contact</a>
+                        <a href="index.html" class="hover:text-indigo-600 text-gray-700">Home</a>
+                        <a href="/welcome" class="hover:text-indigo-600 text-gray-700">Shop</a>
+                        <a href="service.html" class="hover:text-indigo-600 text-gray-700">Service</a>
+                        <a href="contact.html" class="hover:text-indigo-600 text-gray-700">Contact</a>
                     </div>
                 </div>
-                <div class="flex space-x-4 items-center">
+                <div class="flex items-center space-x-4">
+                    <!-- Profile Icon -->
+                    <a href="profile.html" class="text-gray-800 text-sm flex items-center">
+                        <img src="./assets/profile-icon.png" alt="Profile" class="h-8 w-8 rounded-full">
+                    </a>
+                    <!-- Logout Button -->
                     <form action="/logout" method="POST">
                         <button type="submit" class="bg-red-600 px-4 py-2 rounded text-white hover:bg-red-500 text-sm">Logout</button>
                     </form>
@@ -39,7 +44,12 @@
             <img src="./assets/logo.png" alt="Logo" class="h-16 lg:h-24 mx-auto mb-6">
             
             <!-- Search Section -->
-            <input class="search__input" type="text" id="search-box" placeholder="Search" class="w-full border border-gray-300 py-2 pl-3 rounded outline-none focus:ring-indigo-600">
+            <input type="text" id="search-box" placeholder="Search" class="w-full border border-gray-300 py-2 pl-3 rounded outline-none focus:ring-indigo-600">
+            
+            <!-- Success Message (Initially Hidden) -->
+            <div id="success-message" class="hidden mt-4 text-green-600 text-lg">
+                Payment successful, order placed!
+            </div>
         </div>
     </div>
 
@@ -47,7 +57,11 @@
         document.getElementById('search-box').addEventListener('change', function() {
             const url = this.value;
             if (url) {
-                window.location.href = "/payment.html";
+                // Display the success message
+                document.getElementById('success-message').classList.remove('hidden');
+                
+                // Clear the input box after showing the message
+                this.value = '';
             }
         });
     </script>

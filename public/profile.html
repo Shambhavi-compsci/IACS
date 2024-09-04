@@ -3,149 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
-
-    <!-- Custom Css -->
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <link rel="stylesheet" href="assets/profile.css">
-
 </head>
 <body>
-    <!-- Navbar top -->
-    <div class="navbar-top">
-        <div class="title">
-            <h1>Profile</h1>
-        </div>
-
-        <!-- Navbar -->
-        <ul>
-            <li>
-                <a href="#message">
-                    <span class="icon-count">0</span>
-                    <i class="fa fa-envelope fa-2x"></i>
-                </a>
-            </li>
-            <li>
-                <a href="#notification">
-                    <span class="icon-count">0</span>
-                    <i class="fa fa-bell fa-2x"></i>
-                </a>
-            </li>
-            <li>
-                <a href="#sign-out">
-                    <i class="fa fa-sign-out-alt fa-2x"></i>
-                </a>
-            </li>
-        </ul>
-        <!-- End -->
-    </div>
-    <!-- End -->
-
-    <!-- Sidenav -->
-    <div class="sidenav">
-        <div class="profile">
-            <img src="https://imdezcode.files.wordpress.com/2020/02/imdezcode-logo.png" alt="" width="100" height="100">
-
-            <div class="name">
-                ImDezCode
-            </div>
-            <div class="job">
-                Web Developer
-            </div>
-        </div>
-
-        <div class="sidenav-url">
-            <div class="url">
-                <a href="#profile" class="active">Profile</a>
-                <hr align="center">
-            </div>
-            <div class="url">
-                <a href="#settings">Settings</a>
-                <hr align="center">
-            </div>
-        </div>
-    </div>
-    <!-- End -->
-
-    <!-- Main -->
-    <div class="main">
-        <h2>IDENTITY</h2>
-        <div class="card">
-            <div class="card-body">
-                <i class="fa fa-pen fa-xs edit"></i>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Username</td>
-                            <td>:</td>
-                            <td>Shambhavi Sharma</td>
-                        </tr>
-                        <tr>
-                            <td>Email Address</td>
-                            <td>:</td>
-                            <td>shambhavismeee@gmail.com</td>
-                        </tr>
-                        <tr>
-                            <td>Address</td>
-                            <td>:</td>
-                            <td>Wadala, Bhakti Park, East</td>
-                        </tr>
-                        <tr>
-                            <td>Credit Card Number</td>
-                            <td>:</td>
-                            <td>1234567890123456</td>
-                        </tr>
-                        <tr>
-                            <td>ZIP code</td>
-                            <td>:</td>
-                            <td>12345</td>
-                        </tr>
-                        <tr>
-                            <td>CVV</td>
-                            <td>:</td>
-                            <td>654321</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <h2>Save</h2>
-        <div class="card">
-            <div class="card-body">
-                <i class="fa fa-pen fa-xs edit"></i>
-                <div class="social-media">
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-invision fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-whatsapp fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-sm">
-                        <i class="fas fa-circle fa-stack-2x"></i>
-                        <i class="fab fa-snapchat fa-stack-1x fa-inverse"></i>
-                    </span>
+    <!-- Header Section -->
+    <header>
+        <nav class="bg-white shadow fixed w-full top-0 left-0 z-10 transition-transform duration-300 ease-in-out">
+            <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-8">
+                    <button class="menu-btn lg:hidden">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </button>
+                    <a href="/">
+                        <img src="./assets/logo.png" alt="Logo" class="h-8 lg:h-10">
+                    </a>
+                    <div class="hidden md:flex space-x-4">
+                        <a href="index.html" class="hover:text-indigo-600 text-gray-700">Home</a>
+                        <a href="welcome.html" class="hover:text-indigo-600 text-gray-700">Shop</a>
+                        <a href="service.html" class="hover:text-indigo-600 text-gray-700">Service</a>
+                        <a href="contact.html" class="hover:text-indigo-600 text-gray-700">Contact</a>
+                    </div>
+                </div>
+                <div class="flex space-x-4 items-center">
+                    <a href="profile.html" class="flex items-center">
+                        <img src="./assets/profile-icon.png" alt="Profile" class="h-8 w-8 rounded-full">
+                    </a>
+                    <form action="/logout" method="POST">
+                        <button type="submit" class="bg-red-600 px-4 py-2 rounded text-white hover:bg-red-500 text-sm">Logout</button>
+                    </form>
                 </div>
             </div>
+        </nav>
+    </header>
+
+    <!-- Vertical Sidebar -->
+    <div class="expand-menu">
+        <div class="logo-container">
+            <img src="./assets/logo.png" alt="Logo" class="logo">
         </div>
+        <a href="profile.html" class="nav-link active"><i class="far fa-user-circle"></i> Profile</a>
+        <a href="profile_billing.html" class="nav-link"><i class="far fa-file-alt"></i> Billing Info</a>
+        <a href="general.html" class="nav-link mb-auto"><i class="fas fa-cogs"></i> General</a>
     </div>
-    <!-- End -->
+
+    <!-- Main Section -->
+    <main class="flex mt-16">
+        <!-- Content Area -->
+        <div class="content flex-1 p-6 ml-64 transition-margin duration-300 ease-in-out">
+            <div class="max-w-4xl mx-auto bg-white p-8 shadow-lg rounded-lg">
+                <h2 class="text-3xl font-bold mb-6 text-center">Profile Settings</h2>
+                <form id="profile-form" method="POST" action="/update-profile">
+                    <div class="text-center mb-6">
+                        <img src="./assets/logo.png" alt="Logo" class="h-16 mx-auto">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="middle_name" class="block text-sm font-medium text-gray-700">Middle Name</label>
+                            <input type="text" class="form-control" id="middle_name" name="middle_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="country_code" class="block text-sm font-medium text-gray-700">Country Code</label>
+                            <input type="text" class="form-control" id="country_code" name="country_code" pattern="[A-Za-z]{2}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                            <select class="form-control" id="gender" name="gender" required>
+                                <option value="" disabled selected>Select your gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_number" class="block text-sm font-medium text-gray-700">Contact Number</label>
+                            <input type="tel" class="form-control" id="contact_number" name="contact_number" pattern="[0-9]{10}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" minlength="6" required>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-between">
+                        <button type="submit" class="bg-blue-600 px-4 py-2 rounded text-white hover:bg-blue-500">Save Changes</button>
+                        <button type="button" id="cancel-button" class="bg-gray-300 px-4 py-2 rounded text-gray-700 hover:bg-gray-200">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            let originalData = {};
+
+            // Menu toggle
+            $('.menu-btn').on('click', function() {
+                $('.expand-menu').toggleClass('show');
+                $('.bar').toggleClass('animate');
+                $('nav, .content').toggleClass('shifted');
+            });
+
+            // Fetch user profile data and populate the form
+            function populateForm(data) {
+                $('#first_name').val(data.first_name || '');
+                $('#middle_name').val(data.middle_name || '');
+                $('#last_name').val(data.last_name || '');
+                $('#date_of_birth').val(data.date_of_birth || '');
+                $('#country_code').val(data.country_code || '');
+                $('#gender').val(data.gender || '');
+                $('#contact_number').val(data.contact_number || '');
+                $('#email').val(data.email || '');
+            }
+
+            fetch('/profile')
+                .then(response => response.json())
+                .then(data => {
+                    originalData = data; // Store the original data
+                    populateForm(data);
+                })
+                .catch(error => console.error('Error fetching profile data:', error));
+
+            // Cancel button functionality
+            $('#cancel-button').on('click', function() {
+                populateForm(originalData); // Reset form to original data
+            });
+
+            // Form validation
+            $('#profile-form').on('submit', function(e) {
+                let valid = true;
+                const fields = ['#first_name', '#middle_name', '#last_name', '#date_of_birth', '#country_code', '#gender', '#contact_number', '#email', '#password'];
+                
+                fields.forEach(field => {
+                    if (!$(field).val()) {
+                        valid = false;
+                        $(field).addClass('border-red-500');
+                    } else {
+                        $(field).removeClass('border-red-500');
+                    }
+                });
+
+                if (!valid) {
+                    e.preventDefault();
+                    alert('Please fill in all required fields.');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

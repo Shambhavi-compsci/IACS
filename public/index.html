@@ -17,15 +17,15 @@
                         <img src="./assets/logo.png" alt="Logo" class="h-8 lg:h-10">
                     </a>
                     <div class="hidden md:flex space-x-4">
-                        <a href="/" class="hover:text-indigo-600 text-gray-700">Home</a>
-                        <a href="/shop" class="hover:text-indigo-600 text-gray-700">Shop</a>
-                        <a href="#" class="hover:text-indigo-600 text-gray-700">Service</a>
-                        <a href="#" class="hover:text-indigo-600 text-gray-700">Contact</a>
+                        <a href="index.html" class="hover:text-indigo-600 text-gray-700">Home</a>
+                        <a href="welcome.html" class="hover:text-indigo-600 text-gray-700">Shop</a>
+                        <a href="service.html" class="hover:text-indigo-600 text-gray-700">Service</a>
+                        <a href="contact.html" class="hover:text-indigo-600 text-gray-700">Contact</a>
                     </div>
                 </div>
                 <div class="flex space-x-4 items-center">
-                    <a href="/public/index.html" class="text-gray-800 text-sm">LOGIN</a>
-                    <a href="/public/register.html" class="bg-indigo-600 px-4 py-2 rounded text-white hover:bg-indigo-500 text-sm">SIGNUP</a>
+                    <a href="index.html" class="text-gray-800 text-sm">LOGIN</a>
+                    <a href="register.html" class="bg-indigo-600 px-4 py-2 rounded text-white hover:bg-indigo-500 text-sm">SIGNUP</a>
                 </div>
             </div>
         </nav>
@@ -38,6 +38,15 @@
             <img src="./assets/logo.png" alt="Logo" class="h-16 lg:h-24 mx-auto mb-6">
             
             <h2 class="text-2xl font-bold mb-6 text-gray-800">User Login</h2>
+            
+            <!-- Message for Logged-In Users -->
+            <div id="login-status-message" class="hidden mb-6">
+                <p class="text-green-600 font-bold">✔ Already Logged In</p>
+                <p class="mt-4">Check out our <a href="service.html" class="text-blue-600 hover:underline">services</a> or <a href="welcome.html" class="text-blue-600 hover:underline">buy more products</a>.</p>
+                <p class="mt-4">Or <a href="profile.html" class="text-blue-600 hover:underline">view your profile</a>.</p>
+            </div>
+            
+            <!-- Login Form -->
             <form id="loginForm" method="POST" action="/login">
                 <div class="mb-6">
                     <label for="username" class="block text-gray-800 font-bold">Username:</label>
@@ -50,9 +59,37 @@
                 <input type="submit" class="cursor-pointer py-2 px-4 bg-indigo-500 text-white font-bold w-full rounded hover:bg-indigo-400" value="LOGIN">
             </form>
             
-            <a href="register.html" class="text-sm font-thin text-gray-800 hover:underline mt-2 inline-block hover:text-indigo-600">Don't have an account yet? <span class="font-bold text-indigo-600 hover:underline">Sign up</span></a>
+            <!-- New Registration Link for Logged-Out Users -->
+            <div id="registration-link" class="mt-6">
+                <a href="register.html" class="text-sm font-thin text-gray-800 hover:underline">Don't have an account yet? <span class="font-bold text-indigo-600 hover:underline">Sign up</span></a>
+            </div>
         </div>
     </div>
-    
+
+    <!-- Chatbot Integration -->
+
+    <script
+        src="https://www.chatbase.co/embed.min.js"
+        chatbotId="ffgHvnSgquEaaZVt5DbPa"
+        domain="www.chatbase.co"
+        defer
+    ></script>
+
+    <!-- Optional JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fetch login status from the server
+            fetch('/check-login-status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.isLoggedIn) {
+                        document.getElementById('login-status-message').classList.remove('hidden');
+                        document.getElementById('loginForm').style.display = 'none'; // Hide login form if already logged in
+                        document.getElementById('registration-link').style.display = 'none'; // Hide registration link if already logged in
+                    }
+                })
+                .catch(error => console.error('Error checking login status:', error));
+        });
+    </script>
 </body>
 </html>

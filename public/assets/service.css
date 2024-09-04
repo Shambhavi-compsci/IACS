@@ -1,0 +1,45 @@
+/* General styles */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f3f4f6;
+}
+
+h1, h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+}
+
+.service-box {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.text-gray-700 {
+    color: #4a5568;
+}
+
+.bg-white {
+    background-color: #fff;
+}
+
+.bg-indigo-600 {
+    background-color: #5a67d8;
+}
+
+.hover\:bg-indigo-500:hover {
+    background-color: #4c51bf;
+}
+
+.text-indigo-600 {
+    color: #5a67d8;
+}
+
+.hover\:text-indigo-600:hover {
+    color: #5a67d8;
+}
