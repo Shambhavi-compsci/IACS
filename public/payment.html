@@ -35,31 +35,61 @@
     <div class="flex justify-center items-center min-h-screen pt-20 bg-gray-100">
         <div class="container bg-white p-8 rounded shadow-lg max-w-lg">
             <h2 class="text-2xl font-semibold text-gray-700 mb-5">Payment Form</h2>
-            <form action="/submit-payment" method="POST">
+            <form id="payment-form" action="/payment" method="POST">
+
                 <div class="form">
+                    <!-- Card Holder Field -->
                     <div class="card space icon-relative mb-4">
                         <label class="label block text-gray-700 mb-2">Card holder:</label>
-                        <input type="text" name="card_holder" class="input w-full p-3 border rounded" placeholder="Card holder's Name" required>
+                        <input type="text" name="card_holder" class="input w-full p-3 border rounded" placeholder="Card holder's Name" required
+                               pattern="[A-Za-z\s]+" title="Cardholder's name must only contain letters and spaces">
                         <i class="fas fa-user absolute right-3 top-3 text-gray-400"></i>
                     </div>
+                    
+                    <!-- Card Number Field -->
                     <div class="card space icon-relative mb-4">
                         <label class="label block text-gray-700 mb-2">Card number:</label>
-                        <input type="text" name="card_number" class="input w-full p-3 border rounded" data-mask="0000 0000 0000 0000" placeholder="Card Number" required>
+                        <input type="text" name="card_number" id="card_number" class="input w-full p-3 border rounded" placeholder="Card Number" required
+                               maxlength="19" pattern="\d{4} \d{4} \d{4} \d{4}" title="Card number must be 16 digits with spaces every 4 digits">
                         <i class="far fa-credit-card absolute right-3 top-3 text-gray-400"></i>
                     </div>
+                    
+                    <!-- Expiry Date and CVC Fields -->
                     <div class="card-grp space flex mb-4">
                         <div class="card-item icon-relative w-1/2 pr-2">
                             <label class="label block text-gray-700 mb-2">Expiry date:</label>
-                            <input type="text" name="date_of_expiry" class="input w-full p-3 border rounded" data-mask="00 / 00" placeholder="00 / 00" required>
-                            <i class="far fa-calendar-alt absolute right-3 top-3 text-gray-400"></i>
+                            <div class="flex space-x-2">
+                                <select id="expiry-month" name="expiry_month" class="input w-full p-3 border rounded" required>
+                                    <option value="" disabled selected>Month</option>
+                                    <option value="01">01 - January</option>
+                                    <option value="02">02 - February</option>
+                                    <option value="03">03 - March</option>
+                                    <option value="04">04 - April</option>
+                                    <option value="05">05 - May</option>
+                                    <option value="06">06 - June</option>
+                                    <option value="07">07 - July</option>
+                                    <option value="08">08 - August</option>
+                                    <option value="09">09 - September</option>
+                                    <option value="10">10 - October</option>
+                                    <option value="11">11 - November</option>
+                                    <option value="12">12 - December</option>
+                                </select>
+                                <select id="expiry-year" name="expiry_year" class="input w-full p-3 border rounded" required>
+                                    <option value="" disabled selected>Year</option>
+                                    <!-- Dynamically add year options -->
+                                </select>
+                            </div>
+                            <span id="expiry-error" class="text-red-500 text-sm hidden">Expiry date cannot be in the past</span>
                         </div>
                         <div class="card-item icon-relative w-1/2 pl-2">
                             <label class="label block text-gray-700 mb-2">CVC:</label>
-                            <input type="text" name="CVC" class="input w-full p-3 border rounded" data-mask="000" placeholder="000" required>
+                            <input type="text" name="CVC" class="input w-full p-3 border rounded" placeholder="000" required>
                             <i class="fas fa-lock absolute right-3 top-3 text-gray-400"></i>
                         </div>
                     </div>
-                    <button type="submit" class="btn bg-indigo-600 text-white text-center py-2 rounded cursor-pointer hover:bg-indigo-500">
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn w-full bg-indigo-600 text-white text-center py-2 rounded cursor-pointer hover:bg-indigo-500">
                         Next
                     </button>
                 </div>
@@ -69,5 +99,43 @@
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script>
+        // Populate the year dropdown with future years
+        const currentYear = new Date().getFullYear();
+        const expiryYearSelect = document.getElementById('expiry-year');
+        for (let i = 0; i <= 10; i++) {
+            const option = document.createElement('option');
+            option.value = currentYear + i;
+            option.textContent = currentYear + i;
+            expiryYearSelect.appendChild(option);
+        }
+
+        // Format card number with spaces
+        $('#card_number').on('input', function() {
+            const value = this.value.replace(/\D/g, '').substring(0, 16);
+            this.value = value.replace(/(.{4})/g, '$1 ').trim();
+        });
+
+        // Validate expiry date on form submit
+        document.getElementById('payment-form').addEventListener('submit', function (event) {
+            const month = parseInt(document.getElementById('expiry-month').value, 10);
+            const year = parseInt(document.getElementById('expiry-year').value, 10);
+            const now = new Date();
+            const expiryDate = new Date(year, month - 1);
+
+            if (expiryDate < now) {
+                event.preventDefault();
+                document.getElementById('expiry-error').classList.remove('hidden');
+            } else {
+                document.getElementById('expiry-error').classList.add('hidden');
+            }
+        });
+
+        // Validation to prevent numbers in cardholder input
+        document.querySelector('input[name="card_holder"]').addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^A-Za-z\s]/g, ''); // Allow only letters and spaces
+        });
+    </script>
 </body>
 </html>

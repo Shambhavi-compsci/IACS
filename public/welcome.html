@@ -6,6 +6,39 @@
     <title>Welcome</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <link rel="stylesheet" href="assets/welcome.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+        .shopping-cart {
+            width: 100%;
+            max-width: 1200px;
+        }
+        .product-image img {
+            max-width: 100px;
+        }
+        .cart-item {
+            border-top: 1px solid #e5e7eb;
+        }
+        .item-quantity input {
+            width: 60px;
+        }
+        .item-removal {
+            width: 100px;
+        }
+        .remove-product {
+            width: 100%;
+        }
+        .add-item-container {
+            margin-top: 1rem;
+        }
+        .totals-item {
+            margin-top: 0.5rem;
+        }
+        #success-message {
+            margin-top: 1rem;
+        }
+    </style>
 </head>
 <body>
     <!-- Header Section -->
@@ -38,31 +71,154 @@
     </header>
 
     <!-- Main Section -->
-    <div class="h-screen bg-gray-100 flex justify-center items-center">
-        <div class="text-center">
+    <main class="h-screen bg-gray-100 flex flex-col justify-center items-center px-6">
+        <div class="text-center mb-8">
             <!-- Centered and Larger Logo -->
             <img src="./assets/logo.png" alt="Logo" class="h-16 lg:h-24 mx-auto mb-6">
             
             <!-- Search Section -->
-            <input type="text" id="search-box" placeholder="Search" class="w-full border border-gray-300 py-2 pl-3 rounded outline-none focus:ring-indigo-600">
+            <input type="text" id="search-box" placeholder="Enter a link" class="w-full max-w-md border border-gray-300 py-2 pl-3 rounded outline-none focus:ring-indigo-600">
+            
+            <!-- Add Item Button -->
+            <div class="add-item-container">
+                <button id="add-item-button" class="bg-blue-600 px-4 py-2 rounded text-white hover:bg-blue-500 text-sm">Add Item</button>
+            </div>
             
             <!-- Success Message (Initially Hidden) -->
             <div id="success-message" class="hidden mt-4 text-green-600 text-lg">
                 Payment successful, order placed!
             </div>
         </div>
-    </div>
+        
+        <!-- Shopping Cart Section (Initially Hidden) -->
+        <div id="shopping-cart" class="hidden shopping-cart bg-white shadow rounded-lg p-6">
+            <h1 class="text-2xl font-bold mb-4">Shopping Cart</h1>
+
+            <div class="grid grid-cols-6 text-gray-700 font-bold mb-2">
+                <span>Image</span>
+                <span>Product</span>
+                <span>Price</span>
+                <span>Quantity</span>
+                <span>Remove</span>
+                <span>Total</span>
+            </div>
+
+            <div id="cart-items">
+                <!-- Cart items will be dynamically added here -->
+            </div>
+
+            <div class="totals mt-4">
+                <div class="totals-item flex justify-between mb-2">
+                    <label>Subtotal</label>
+                    <div class="totals-value" id="cart-subtotal">$0.00</div>
+                </div>
+                <div class="totals-item flex justify-between mb-2">
+                    <label>Tax (5%)</label>
+                    <div class="totals-value" id="cart-tax">$0.00</div>
+                </div>
+                <div class="totals-item flex justify-between mb-2">
+                    <label>Shipping</label>
+                    <div class="totals-value" id="cart-shipping">$15.00</div>
+                </div>
+                <div class="totals-item totals-item-total flex justify-between font-bold">
+                    <label>Grand Total</label>
+                    <div class="totals-value" id="cart-total">$15.00</div>
+                </div>
+            </div>
+
+            <button id="checkout-button" class="checkout bg-blue-600 px-4 py-2 rounded text-white hover:bg-blue-500 text-sm mt-4">Checkout</button>
+        </div>
+    </main>
 
     <script>
-        document.getElementById('search-box').addEventListener('change', function() {
-            const url = this.value;
-            if (url) {
-                // Display the success message
-                document.getElementById('success-message').classList.remove('hidden');
-                
-                // Clear the input box after showing the message
-                this.value = '';
+        // Function to update cart totals
+        function updateCartTotals() {
+            const cartItems = document.querySelectorAll('.cart-item');
+            let subtotal = 0;
+
+            cartItems.forEach(item => {
+                const price = parseFloat(item.querySelector('.item-price').textContent.replace('$', ''));
+                const quantity = parseInt(item.querySelector('.item-quantity input').value);
+                subtotal += price * quantity;
+
+                // Update the total price for each item
+                item.querySelector('.item-total').textContent = `$${(price * quantity).toFixed(2)}`;
+            });
+
+            const tax = subtotal * 0.05;
+            const shipping = 15;
+            const total = subtotal + tax + shipping;
+
+            document.getElementById('cart-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('cart-tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('cart-shipping').textContent = `$${shipping.toFixed(2)}`;
+            document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        document.getElementById('add-item-button').addEventListener('click', function() {
+            const url = document.getElementById('search-box').value;
+
+            // Regex to validate URL
+            const urlPattern = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[\w-]*)*(\?[^\s]*)?$/i;
+
+            if (urlPattern.test(url)) {
+                // Hide the search box and display the shopping cart if not already visible
+                document.getElementById('search-box').style.display = 'none';
+                const cart = document.getElementById('shopping-cart');
+                cart.classList.remove('hidden');
+
+                // Create a new cart item
+                const cartItems = document.getElementById('cart-items');
+                const newItem = document.createElement('div');
+                newItem.className = 'cart-item grid grid-cols-6 items-center py-4';
+
+                newItem.innerHTML = `
+                    <div class="product-image">
+                        <img src="./assets/headphones.png" alt="Product Image">
+                    </div>
+                    <div class="product-details">
+                        <div class="product-title font-semibold">Bose QuietComfort Ultra Headphones</div>
+                        <p class="product-description text-gray-600">World-class noise cancellation, quieter than ever before.</p>
+                    </div>
+                    <div class="item-price">$99.99</div>
+                    <div class="item-quantity">
+                        <input type="number" value="1" min="1" class="border border-gray-300 px-2 py-1 rounded">
+                    </div>
+                    <div class="item-removal">
+                        <button class="remove-product bg-red-600 text-white px-2 py-1 rounded">Remove</button>
+                    </div>
+                    <div class="item-total">$99.99</div>
+                `;
+
+                cartItems.appendChild(newItem);
+
+                // Update totals
+                updateCartTotals();
+
+                // Add event listener to quantity input
+                newItem.querySelector('.item-quantity input').addEventListener('input', updateCartTotals);
+
+                // Add event listener to remove button
+                newItem.querySelector('.remove-product').addEventListener('click', function() {
+                    if (cartItems.children.length > 1) {
+                        newItem.remove();
+                        updateCartTotals();
+                    } else {
+                        alert('You must have at least one item in the cart.');
+                    }
+                });
+
+                // Clear the input box after adding the item
+                document.getElementById('search-box').value = '';
+            } else {
+                alert('Please enter a valid URL.');
             }
+        });
+
+        document.getElementById('checkout-button').addEventListener('click', function() {
+            // Display the success message and hide the shopping cart
+            document.getElementById('success-message').classList.remove('hidden');
+            document.getElementById('shopping-cart').classList.add('hidden');
         });
     </script>
 </body>

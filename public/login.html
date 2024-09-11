@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+    <section class="container">
+        <div class="logo">
+            <img src="./assets/logo.png" alt="Logo">
+        </div>
+        <div class="form">
+            <h2>Sign in</h2>
+            <form action="/login" method="POST">
+                <input type="email" name="username" class="form-control" placeholder="Email or phone" required />
+                <input type="password" name="password" class="form-control" placeholder="Password" required />
+                <input type="submit" class="btn" value="Next">
+            </form>
+            <a href="/register.html" class="f-pass">Create account</a>
+        </div>
+    </section>
+</body>
+</html>

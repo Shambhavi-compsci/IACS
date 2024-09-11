@@ -56,6 +56,7 @@
                         <input id="dob" type="date" name="dob" required>
                     </div>
                     
+                    
                     <div class="input-box">
                         <span class="details">Country Code</span>
                         <input type="text" data-mask="000" placeholder="000" name="country_code" required>
@@ -121,6 +122,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     <script>
         function myfunction() {
+            // Password validation
             var a = document.getElementById("pwd").value;
             var b = document.getElementById("pwds").value;
             if (a === "") {
@@ -131,15 +133,48 @@
                 document.getElementById("messages").innerHTML = "**Password did not match**";
                 return false;
             }
-        
+    
+            // Email validation
             var e = document.myform.email.value;
             if (e.indexOf('@') < 0) {
                 document.getElementById("emailmsg").innerHTML = "Invalid email address";
                 return false;
             }
-            
+    
+            // Name validation (allow only alphabetic characters)
+            var namePattern = /^[a-zA-Z]+$/;
+    
+            var firstName = document.myform.first_name.value;
+            var middleName = document.myform.middle_name.value;
+            var lastName = document.myform.last_name.value;
+    
+            if (!namePattern.test(firstName)) {
+                alert("First Name must contain only letters");
+                return false;
+            }
+            if (!namePattern.test(middleName)) {
+                alert("Middle Name must contain only letters");
+                return false;
+            }
+            if (!namePattern.test(lastName)) {
+                alert("Last Name must contain only letters");
+                return false;
+            }
+    
             return true; // Ensure the form submits if all validations pass
         }
     </script>
+    <script>
+        // Function to set the maximum date for DOB field
+        function setMaxDate() {
+            const today = new Date();
+            const maxDate = today.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
+            document.getElementById('dob').setAttribute('max', maxDate);
+        }
+    
+        // Call the function once the page is loaded
+        window.onload = setMaxDate;
+    </script>
+    
 </body>
 </html>

@@ -73,9 +73,10 @@ app.post('/login', (req, res) => {
 
   const query = 'SELECT * FROM loginuser WHERE username = ? AND password = ?';
   db.query(query, [username, password], (err, results) => {
-    if (err) throw err;
-
-    if (results.length > 0) {
+    if (err) {
+      console.error('Login query error:', err);
+      res.status(500).send('Server error');
+    } else if (results.length > 0) {
       req.session.user = results[0]; // Store user information in session
       res.redirect('/welcome'); // Redirect to protected route
     } else {
@@ -89,19 +90,18 @@ app.get('/check-login-status', (req, res) => {
 });
 
 app.post('/logout', (req, res) => {
-  // Destroy the session
   req.session.destroy(err => {
     if (err) {
       console.error('Logout error:', err);
       res.status(500).send('Server error');
     } else {
-      // Clear the session cookie
       res.clearCookie('connect.sid');
       res.redirect('/index.html'); // Redirect to index page after logout
     }
   });
 });
 
+// Delete Account Route
 app.post('/delete-account', (req, res) => {
   if (!req.session.user) {
     return res.redirect('/index.html'); // Ensure user is logged in
@@ -109,15 +109,13 @@ app.post('/delete-account', (req, res) => {
 
   const userId = req.session.user.idregister; // Ensure this matches the session data field
 
-  // Delete user from database
   db.query('DELETE FROM register WHERE idregister = ?', [userId], (err, result) => {
     if (err) {
       console.error('Error deleting account: ', err);
       return res.status(500).send('Server error');
     }
 
-    // Destroy session and redirect to index.html
-    req.session.destroy((err) => {
+    req.session.destroy(err => {
       if (err) {
         console.error('Error destroying session: ', err);
         return res.status(500).send('Server error');
@@ -127,12 +125,18 @@ app.post('/delete-account', (req, res) => {
   });
 });
 
-// Registration and Payment Routes
+// Registration and Payment Routes with Validation
 app.post('/register', (req, res) => {
   const { first_name, middle_name, last_name, dob, country_code, gender, contact_number, email, password } = req.body;
+  const today = new Date();
+  const selectedDOB = new Date(dob);
+
+  // Date of birth validation
+  if (selectedDOB > today) {
+    return res.status(400).send('Date of birth cannot be in the future.');
+  }
 
   const query = 'INSERT INTO register (first_name, middle_name, last_name, date_of_birth, country_code, gender, contact_number, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-
   db.query(query, [first_name, middle_name, last_name, dob, country_code, gender, contact_number, email, password], (err, result) => {
     if (err) {
       console.error('Error inserting data: ', err.message);
@@ -144,28 +148,30 @@ app.post('/register', (req, res) => {
   });
 });
 
-app.post('/submit-payment', (req, res) => {
-  const { card_holder, card_number, date_of_expiry, CVC } = req.body;
+app.post('/payment', (req, res) => {
+  const { card_holder, card_number, expiry_month, expiry_year, CVC } = req.body;
+
+  // Combine expiry month and year into MM/YYYY format
+  const date_of_expiry = `${expiry_month}/${expiry_year}`;
 
   const query = 'INSERT INTO payment (card_holder, card_number, date_of_expiry, CVC) VALUES (?, ?, ?, ?)';
-  
+
   db.query(query, [card_holder, card_number, date_of_expiry, CVC], (err, result) => {
     if (err) {
       console.error('Error inserting payment data: ', err.message);
       res.status(500).send('Database error: ' + err.message);
     } else {
       console.log('Payment data inserted successfully: ', result);
-      res.redirect('/welcome');
+      res.redirect('/address.html'); // Redirect to address page
     }
   });
 });
 
 // Address Form Submission Route
-app.post('/submit-address', (req, res) => {
+app.post('/address', (req, res) => {
   const { address, city, state, zip } = req.body;
 
   const query = 'INSERT INTO address (address, city, state, zip) VALUES (?, ?, ?, ?)';
-
   db.query(query, [address, city, state, zip], (err, result) => {
     if (err) {
       console.error('Error inserting address data: ', err.message);
@@ -178,29 +184,8 @@ app.post('/submit-address', (req, res) => {
 });
 
 // Update Profile Route
-// Route to fetch user profile data
-app.get('/profile', isLoggedIn, (req, res) => {
-  const userId = req.session.user.idregister; // Assuming session contains user's ID
-
-  const query = 'SELECT first_name, middle_name, last_name, date_of_birth, country_code, gender, contact_number, email FROM register WHERE idregister = ?';
-
-  db.query(query, [userId], (err, results) => {
-    if (err) {
-      console.error('Error fetching profile data: ', err);
-      return res.status(500).send('Server error');
-    }
-
-    if (results.length > 0) {
-      res.json(results[0]); // Send user profile data to client-side
-    } else {
-      res.status(404).send('Profile not found');
-    }
-  });
-});
-
-// Route to update user profile data
 app.post('/update-profile', isLoggedIn, (req, res) => {
-  const userId = req.session.user.idregister; // Update to use idregister
+  const userId = req.session.user.idregister; 
   const { first_name, middle_name, last_name, date_of_birth, country_code, gender, contact_number, email, password } = req.body;
 
   const query = `
@@ -218,29 +203,29 @@ app.post('/update-profile', isLoggedIn, (req, res) => {
   });
 });
 
-// Route to Get Billing Info
+// Billing Info Routes
 app.get('/billing-info', isLoggedIn, (req, res) => {
-  const userId = req.session.user.idregister; // Assuming user ID is stored as idregister
-  const query = 'SELECT * FROM payment WHERE idpayment = ?'; // Adjust to your table schema
+  const userId = req.session.user.idregister; 
+  const query = 'SELECT * FROM payment WHERE idregister = ?'; // Use idregister to match userId
 
   db.query(query, [userId], (err, results) => {
     if (err) {
       console.error('Error fetching billing data: ', err.message);
       res.status(500).send('Database error: ' + err.message);
     } else {
-      res.json(results[0] || {}); // Send payment data as JSON
+      res.json(results[0] || {}); 
     }
   });
 });
 
 app.post('/update-billing-info', isLoggedIn, (req, res) => {
-  const userId = req.session.user.idregister; // Assuming user ID is stored as idregister
+  const userId = req.session.user.idregister; 
   const { card_holder, card_number, date_of_expiry, CVC } = req.body;
 
   const query = `
     UPDATE payment
     SET card_holder = ?, card_number = ?, date_of_expiry = ?, CVC = ?
-    WHERE idpayment = ?`;
+    WHERE idregister = ?`; // Use idregister to match userId
 
   db.query(query, [card_holder, card_number, date_of_expiry, CVC, userId], (err, result) => {
     if (err) {
@@ -252,7 +237,6 @@ app.post('/update-billing-info', isLoggedIn, (req, res) => {
   });
 });
 
-// Start the Server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });

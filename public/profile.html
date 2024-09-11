@@ -121,14 +121,14 @@
     <script>
         $(document).ready(function() {
             let originalData = {};
-
+    
             // Menu toggle
             $('.menu-btn').on('click', function() {
                 $('.expand-menu').toggleClass('show');
                 $('.bar').toggleClass('animate');
                 $('nav, .content').toggleClass('shifted');
             });
-
+    
             // Fetch user profile data and populate the form
             function populateForm(data) {
                 $('#first_name').val(data.first_name || '');
@@ -140,7 +140,7 @@
                 $('#contact_number').val(data.contact_number || '');
                 $('#email').val(data.email || '');
             }
-
+    
             fetch('/profile')
                 .then(response => response.json())
                 .then(data => {
@@ -148,17 +148,23 @@
                     populateForm(data);
                 })
                 .catch(error => console.error('Error fetching profile data:', error));
-
+    
             // Cancel button functionality
             $('#cancel-button').on('click', function() {
                 populateForm(originalData); // Reset form to original data
             });
-
+    
+            // Password validation function
+            function isValidPassword(password) {
+                const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{6,}$/;
+                return passwordPattern.test(password);
+            }
+    
             // Form validation
             $('#profile-form').on('submit', function(e) {
                 let valid = true;
                 const fields = ['#first_name', '#middle_name', '#last_name', '#date_of_birth', '#country_code', '#gender', '#contact_number', '#email', '#password'];
-                
+    
                 fields.forEach(field => {
                     if (!$(field).val()) {
                         valid = false;
@@ -167,7 +173,16 @@
                         $(field).removeClass('border-red-500');
                     }
                 });
-
+    
+                const password = $('#password').val();
+                if (!isValidPassword(password)) {
+                    valid = false;
+                    $('#password').addClass('border-red-500');
+                    alert('Password should contain at least 6 characters, including an uppercase letter, a lowercase letter, a number, and a special character (!@#$%^&*).');
+                } else {
+                    $('#password').removeClass('border-red-500');
+                }
+    
                 if (!valid) {
                     e.preventDefault();
                     alert('Please fill in all required fields.');
@@ -175,5 +190,6 @@
             });
         });
     </script>
+    
 </body>
 </html>

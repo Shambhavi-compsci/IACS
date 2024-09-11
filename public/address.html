@@ -35,25 +35,26 @@
     <div class="flex justify-center items-center min-h-screen pt-20 bg-gray-100">
         <div class="container bg-white p-8 rounded shadow-lg max-w-lg">
             <h2 class="text-2xl font-semibold text-gray-700 mb-5">Address Form</h2>
-            <form id="address-form" action="/submit-address" method="POST">
+            <form id="address-form">
                 <div class="form">
                     <div class="space mb-4">
-                        <label class="label block text-gray-700 mb-2">Address:</label>
-                        <input type="text" name="address" class="input w-full p-3 border rounded" placeholder="Street Address" required>
+                        <label class="label block text-gray-700 mb-2" for="address">Address:</label>
+                        <input type="text" id="address" name="address" class="input w-full p-3 border rounded" placeholder="Street Address" required>
                     </div>
                     <div class="space mb-4">
-                        <label class="label block text-gray-700 mb-2">City:</label>
-                        <input type="text" name="city" class="input w-full p-3 border rounded" placeholder="City" required>
+                        <label class="label block text-gray-700 mb-2" for="city">City:</label>
+                        <input type="text" id="city" name="city" class="input w-full p-3 border rounded" placeholder="City" required>
                     </div>
                     <div class="space mb-4">
-                        <label class="label block text-gray-700 mb-2">State:</label>
-                        <input type="text" name="state" class="input w-full p-3 border rounded" placeholder="State" required>
+                        <label class="label block text-gray-700 mb-2" for="state">State:</label>
+                        <input type="text" id="state" name="state" class="input w-full p-3 border rounded" placeholder="State" required>
                     </div>
                     <div class="space mb-4">
-                        <label class="label block text-gray-700 mb-2">ZIP:</label>
-                        <input type="text" name="zip" class="input w-full p-3 border rounded" placeholder="ZIP Code" required>
+                        <label class="label block text-gray-700 mb-2" for="zip">ZIP:</label>
+                        <input type="text" id="zip" name="zip" class="input w-full p-3 border rounded" placeholder="ZIP Code" required maxlength="6">
+                        <span id="zip-error" class="text-red-500 text-sm hidden">ZIP code must be 6 digits or less.</span>
                     </div>
-                    <button type="submit" class="btn bg-indigo-600 text-white text-center py-2 rounded cursor-pointer hover:bg-indigo-500">
+                    <button type="button" id="go-shop-button" class="btn bg-indigo-600 text-white text-center py-2 rounded cursor-pointer hover:bg-indigo-500">
                         Go Shop!
                     </button>
                 </div>
@@ -62,17 +63,19 @@
     </div>
 
     <script>
-        // Form submission and validation
-        document.getElementById('address-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+        document.getElementById('go-shop-button').addEventListener('click', function() {
+            const zipInput = document.getElementById('zip');
+            const zipValue = zipInput.value;
 
-            // Check if all fields are valid
-            const form = event.target;
-            if (form.checkValidity()) {
-                form.submit();
+            // Validate ZIP code
+            const zipRegex = /^\d{1,6}$/; // Only digits, up to 6 characters
+
+            if (zipRegex.test(zipValue)) {
+                // Redirect to welcome.html
+                window.location.href = 'welcome.html';
             } else {
-                // Show validation message for empty fields
-                form.reportValidity();
+                // Show error message
+                document.getElementById('zip-error').classList.remove('hidden');
             }
         });
     </script>
